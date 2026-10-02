@@ -1,0 +1,10 @@
+# Non-secret settings shared by the Spring Boot services. Spring Boot maps
+# these environment variables onto its properties (for example
+# SPRING_RABBITMQ_HOST overrides spring.rabbitmq.host).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cake-delight-config
+data:
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka-service:8761/eureka/"
+  SPRING_RABBITMQ_HOST: "rabbitmq-service"

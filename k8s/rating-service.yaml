@@ -1,0 +1,14 @@
+# Internal ClusterIP Service. Clients reach this service through the API
+# Gateway, which finds the pods through Eureka.
+apiVersion: v1
+kind: Service
+metadata:
+  name: rating-service
+  labels:
+    app: rating-service
+spec:
+  selector:
+    app: rating-service
+  ports:
+    - port: 8083
+      targetPort: 8083

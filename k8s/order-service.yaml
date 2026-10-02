@@ -1,0 +1,14 @@
+# Internal ClusterIP Service. Clients reach this service through the API
+# Gateway, which finds the pods through Eureka.
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+  labels:
+    app: order-service
+spec:
+  selector:
+    app: order-service
+  ports:
+    - port: 8082
+      targetPort: 8082

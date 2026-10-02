@@ -1,0 +1,14 @@
+target/
+.mvn/
+mvnw
+mvnw.cmd
+.classpath
+.project
+.settings/
+.idea/
+.vscode/
+*.iml
+HELP.md
+*.txt
+Dockerfile
+.dockerignore

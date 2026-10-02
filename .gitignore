@@ -1,0 +1,33 @@
+# Build output
+target/
+build/
+*.jar
+*.war
+*.class
+!**/.mvn/wrapper/maven-wrapper.jar
+
+# Spring Initializr / Maven helper files
+HELP.md
+full-tree-*.txt
+
+# IDEs
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+.springBeans
+.sts4-cache/
+.apt_generated/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and local environment files
+*.log
+.env

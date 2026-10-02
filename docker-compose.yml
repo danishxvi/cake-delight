@@ -1,0 +1,137 @@
+# Runs the complete Cake Delight stack on a single machine with Docker Compose.
+#
+#   docker compose up --build -d
+#
+# Website:      http://localhost:30000
+# API Gateway:  http://localhost:30080   (Swagger UI at /swagger-ui.html)
+# Eureka:       http://localhost:8761
+# RabbitMQ UI:  http://localhost:15672   (cakeuser / cakepass123)
+# MySQL:        localhost:3307           (root / root)
+#
+# Service names match the Kubernetes Service names (mysql-service,
+# eureka-service, ...), so the applications use the same configuration in
+# both environments. The credentials are local development values only.
+#
+# The memory limits keep the whole stack at roughly 3 GB. Each JVM sizes its
+# heap from its container limit (see JAVA_TOOL_OPTIONS in the Dockerfiles).
+
+name: cake-delight
+
+x-java-service: &java-service
+  restart: unless-stopped
+  mem_limit: 384m
+  environment: &java-env
+    EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+    SPRING_DATASOURCE_PASSWORD: root
+  depends_on: &java-depends
+    eureka-service:
+      condition: service_healthy
+    mysql-service:
+      condition: service_healthy
+
+services:
+  mysql-service:
+    image: mysql:8.4
+    restart: unless-stopped
+    # Performance Schema is not needed locally and costs about 200 MB.
+    command: ["--performance-schema=OFF"]
+    mem_limit: 512m
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  rabbitmq-service:
+    image: rabbitmq:4-management
+    restart: unless-stopped
+    mem_limit: 384m
+    environment:
+      RABBITMQ_DEFAULT_USER: cakeuser
+      RABBITMQ_DEFAULT_PASS: cakepass123
+    ports:
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+
+  eureka-service:
+    build: ./eureka-server
+    image: cake-delight/eureka-server:1.1.0
+    restart: unless-stopped
+    mem_limit: 384m
+    ports:
+      - "8761:8761"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  api-gateway:
+    build: ./api-gateway
+    image: cake-delight/api-gateway:1.1.0
+    restart: unless-stopped
+    mem_limit: 384m
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+    ports:
+      - "30080:8080"
+    depends_on:
+      eureka-service:
+        condition: service_healthy
+
+  cake-catalog-service:
+    <<: *java-service
+    build: ./cake-catalog-service
+    image: cake-delight/cake-catalog-service:1.1.0
+
+  order-service:
+    <<: *java-service
+    build: ./order-service
+    image: cake-delight/order-service:1.1.0
+    environment:
+      <<: *java-env
+      SPRING_RABBITMQ_USERNAME: cakeuser
+      SPRING_RABBITMQ_PASSWORD: cakepass123
+    depends_on:
+      <<: *java-depends
+      rabbitmq-service:
+        condition: service_healthy
+
+  rating-service:
+    <<: *java-service
+    build: ./rating-service
+    image: cake-delight/rating-service:1.1.0
+
+  notification-service:
+    <<: *java-service
+    build: ./notification-service
+    image: cake-delight/notification-service:1.1.0
+    environment:
+      <<: *java-env
+      SPRING_RABBITMQ_USERNAME: cakeuser
+      SPRING_RABBITMQ_PASSWORD: cakepass123
+    depends_on:
+      <<: *java-depends
+      rabbitmq-service:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    image: cake-delight/frontend:1.1.0
+    restart: unless-stopped
+    mem_limit: 64m
+    ports:
+      - "30000:80"
+
+volumes:
+  mysql-data:

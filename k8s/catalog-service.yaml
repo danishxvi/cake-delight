@@ -1,0 +1,14 @@
+# Internal ClusterIP Service. Clients reach the catalog through the API
+# Gateway, which finds the pods through Eureka.
+apiVersion: v1
+kind: Service
+metadata:
+  name: cake-catalog-service
+  labels:
+    app: cake-catalog-service
+spec:
+  selector:
+    app: cake-catalog-service
+  ports:
+    - port: 8081
+      targetPort: 8081

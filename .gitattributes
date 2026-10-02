@@ -1,0 +1,14 @@
+# Store text files with LF line endings in the repository.
+* text=auto
+
+# Shell scripts must keep LF to run on Linux and macOS.
+*.sh text eol=lf
+mvnw text eol=lf
+
+# Windows scripts keep CRLF.
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+*.png binary
+*.jpg binary
+*.jar binary

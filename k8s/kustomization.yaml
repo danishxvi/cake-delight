@@ -1,0 +1,56 @@
+# Deploys everything with:  kubectl apply -k k8s/
+#
+# To run your own images, change newName and newTag below (for example
+# newName: <your-docker-hub-user>/order-service) instead of editing every
+# Deployment.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - pairs:
+      app.kubernetes.io/part-of: cake-delight
+
+resources:
+  - secrets.yaml
+  - configmap.yaml
+  - mysql.yaml
+  - rabbitmq.yaml
+  - eureka-deployment.yaml
+  - eureka-service.yaml
+  - gateway-deployment.yaml
+  - gateway-service.yaml
+  - catalog-deployment.yaml
+  - catalog-service.yaml
+  - catalog-hpa.yaml
+  - order-deployment.yaml
+  - order-service.yaml
+  - order-hpa.yaml
+  - rating-deployment.yaml
+  - rating-service.yaml
+  - notification-deployment.yaml
+  - notification-service.yaml
+  - frontend-deployment.yaml
+  - frontend-service.yaml
+
+images:
+  - name: danish1611/eureka-server
+    newName: danish1611/eureka-server
+    newTag: "1.1.0"
+  - name: danish1611/api-gateway
+    newName: danish1611/api-gateway
+    newTag: "1.1.0"
+  - name: danish1611/cake-catalog-service
+    newName: danish1611/cake-catalog-service
+    newTag: "1.1.0"
+  - name: danish1611/order-service
+    newName: danish1611/order-service
+    newTag: "1.1.0"
+  - name: danish1611/rating-service
+    newName: danish1611/rating-service
+    newTag: "1.1.0"
+  - name: danish1611/notification-service
+    newName: danish1611/notification-service
+    newTag: "1.1.0"
+  - name: danish1611/frontend
+    newName: danish1611/frontend
+    newTag: "1.1.0"

@@ -1,0 +1,668 @@
+/* ===========================================================
+   Cake Delight - stylesheet
+   Minimal monochrome design. All colours come from the custom
+   properties below.
+   =========================================================== */
+
+:root {
+	--bg: #ffffff;
+	--text: #000000;
+	--text-muted: #666666;
+	--border: #e0e0e0;
+	--border-hover: #000000;
+}
+
+/* Reset */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+	background-color: var(--bg);
+	color: var(--text);
+	padding: 40px 20px;
+	max-width: 1200px;
+	margin: 0 auto;
+	line-height: 1.5;
+	/* Room for the fixed footer */
+	padding-bottom: 70px;
+}
+
+/* Animations */
+@keyframes fadeUp {
+	from {
+		opacity: 0;
+		transform: translateY(15px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes fadeOutDown {
+	from {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	to {
+		opacity: 0;
+		transform: translateY(15px);
+	}
+}
+
+@keyframes slideDown {
+	from {
+		opacity: 0;
+		transform: translateY(-100%);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes slideUp {
+	from {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	to {
+		opacity: 0;
+		transform: translateY(-100%);
+	}
+}
+
+/* Typography & Header */
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 20px;
+	border-bottom: 1px solid var(--text);
+	margin-bottom: 40px;
+	animation: fadeUp 0.6s ease backwards;
+}
+
+header h1 {
+	font-size: 2rem;
+	font-weight: 700;
+	letter-spacing: -1px;
+	text-transform: uppercase;
+}
+
+/* Two columns: catalog and sidebar */
+.container {
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	gap: 40px;
+}
+
+/* Form Elements & Buttons */
+input,
+select {
+	padding: 10px 14px;
+	border: 1px solid var(--border);
+	background: transparent;
+	font-size: 0.9rem;
+	outline: none;
+	transition: border-color 0.3s ease;
+	border-radius: 0;
+}
+
+input:focus,
+select:focus {
+	border-color: var(--text);
+}
+
+/* Keyboard focus */
+button:focus-visible, 
+input:focus-visible, 
+select:focus-visible, 
+.star:focus-visible {
+	outline: 2px solid var(--text);
+	outline-offset: 2px;
+}
+
+/* Hide number input spinners */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type="number"] {
+	appearance: textfield;
+	-moz-appearance: textfield;
+}
+
+/* Fixed Footer Styling */
+.site-footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background-color: var(--bg);
+	color: var(--text-muted);
+	text-align: center;
+	padding: 12px 0;
+	font-size: 0.75rem;
+	border-top: 1px solid var(--border);
+	z-index: 1000;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+}
+
+button {
+	background: var(--text);
+	color: var(--bg);
+	border: 1px solid var(--text);
+	cursor: pointer;
+	padding: 10px 16px;
+	font-size: 0.85rem;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 600;
+	transition: all 0.3s ease;
+}
+
+button:hover {
+	background: var(--bg);
+	color: var(--text);
+}
+
+/* Secondary actions */
+button.btn-outline {
+	background: var(--bg);
+	color: var(--text);
+}
+
+button.btn-outline:hover {
+	background: var(--text);
+	color: var(--bg);
+}
+
+/* Filter Section */
+.filter-card {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+	margin-bottom: 30px;
+	animation: fadeUp 0.6s ease 0.1s backwards;
+}
+
+/* Catalog grid */
+.catalog-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	gap: 25px;
+}
+
+.cake-card {
+	border: 1px solid var(--border);
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	transition: transform 0.3s ease, border-color 0.3s ease;
+	background: var(--bg);
+	animation: fadeUp 0.6s ease backwards;
+}
+
+.cake-card:hover {
+	border-color: var(--border-hover);
+	transform: translateY(-4px);
+}
+
+.cake-card h3 {
+	font-size: 1.1rem;
+	font-weight: 600;
+	margin-bottom: 8px;
+}
+
+.cake-card p {
+	font-size: 0.9rem;
+	color: var(--text-muted);
+	margin-bottom: 12px;
+}
+
+.cake-card .price {
+	font-weight: 700;
+	font-size: 1.25rem;
+	margin-bottom: 15px;
+}
+
+.cake-card button {
+	width: 100%;
+	margin-top: 8px;
+}
+
+/* Sidebar Panels */
+aside {
+	animation: fadeUp 0.6s ease 0.2s backwards;
+}
+
+.panel {
+	border: 1px solid var(--border);
+	padding: 25px;
+	margin-bottom: 30px;
+	background-color: var(--bg);
+}
+
+/* Keep the basket in view while scrolling the catalog */
+#basket-panel {
+	position: sticky;
+	top: 20px;
+	z-index: 10;
+}
+
+.panel h2 {
+	font-size: 1.1rem;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid var(--border);
+	padding-bottom: 10px;
+}
+
+/* Panel title with an inline action button */
+.panel-header-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid var(--border);
+	padding-bottom: 10px;
+	flex-wrap: wrap;
+}
+
+.panel-header-row h2 {
+	margin-bottom: 0;
+	border-bottom: none;
+	padding-bottom: 0;
+}
+
+.btn-orders-toggle {
+	padding: 8px 12px;
+	font-size: 0.75rem;
+	white-space: nowrap;
+}
+
+/* Count pill */
+.badge {
+	display: inline-block;
+	background: var(--text);
+	color: var(--bg);
+	border-radius: 999px;
+	padding: 1px 8px;
+	font-size: 0.7rem;
+	margin-left: 6px;
+	vertical-align: middle;
+}
+
+.btn-outline .badge {
+	background: var(--text);
+	color: var(--bg);
+}
+
+/* Basket Styling */
+.basket-item {
+	display: grid;
+	grid-template-columns: 1fr auto auto auto;
+	gap: 12px;
+	align-items: center;
+	margin-bottom: 15px;
+	font-size: 0.95rem;
+	border-bottom: 1px dashed var(--border);
+	padding-bottom: 10px;
+	animation: fadeUp 0.3s ease forwards;
+}
+
+.basket-item.removing {
+	animation: fadeOutDown 0.3s ease forwards;
+}
+
+.basket-item:last-child {
+	border-bottom: none;
+}
+
+/* Basket Quantity Controls */
+.qty-controls {
+	display: inline-flex;
+	align-items: center;
+	border: 1px solid var(--border);
+}
+
+.qty-controls button {
+	background: transparent;
+	color: var(--text);
+	border: none;
+	padding: 2px 8px;
+	font-size: 0.8rem;
+	cursor: pointer;
+	transition: background 0.3s, color 0.3s;
+	width: auto;
+	margin: 0;
+}
+
+.qty-controls button:hover {
+	background: var(--text);
+	color: var(--bg);
+}
+
+.qty-controls span {
+	padding: 0 8px;
+	font-size: 0.85rem;
+	font-weight: 600;
+}
+
+.btn-remove {
+	background: transparent;
+	color: var(--text);
+	border: 1px solid var(--border);
+	padding: 4px 8px;
+	font-size: 0.7rem;
+}
+
+.btn-remove:hover {
+	border-color: var(--text);
+}
+
+.total {
+	font-weight: 700;
+	margin-top: 20px;
+	font-size: 1.2rem;
+	text-align: right;
+	border-top: 1px solid var(--text);
+	padding-top: 15px;
+}
+
+.basket-actions {
+	display: flex;
+	gap: 10px;
+	margin-top: 20px;
+}
+
+.checkout-btn {
+	width: 100%;
+	padding: 14px;
+}
+
+/* Rating Form Styling */
+.rating-form input,
+.rating-form select,
+.rating-form button {
+	width: 100%;
+	margin-bottom: 12px;
+}
+
+/* Minimal Star Rating */
+.star-rating {
+	display: flex;
+	gap: 8px;
+	margin-bottom: 15px;
+	justify-content: center;
+}
+
+.star {
+	width: 32px;
+	height: 32px;
+	fill: var(--bg);
+	stroke: var(--text);
+	stroke-width: 1.5;
+	stroke-linejoin: round;
+	cursor: pointer;
+	transition: fill 0.3s ease, transform 0.2s ease;
+}
+
+.star:hover {
+	transform: scale(1.15);
+}
+
+.star.active {
+	fill: var(--text);
+}
+
+/* Notification Banner */
+.alert {
+	padding: 12px 20px;
+	background: var(--text);
+	color: var(--bg);
+	font-weight: 500;
+	font-size: 0.9rem;
+	display: none;
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	z-index: 1000;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+	animation: slideDown 0.4s ease forwards;
+}
+
+.alert.success {
+	background: var(--bg);
+	color: var(--text);
+	border: 2px solid var(--text);
+}
+
+.alert.hide {
+	animation: slideUp 0.4s ease forwards;
+}
+
+/* Responsive Design */
+/* Single column below 900px */
+@media (max-width: 900px) {
+	.container {
+		grid-template-columns: 1fr;
+	}
+
+	header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 15px;
+	}
+	
+	#basket-panel {
+		position: static;
+	}
+
+	.orders-drawer {
+		width: 100%;
+		max-width: 100%;
+	}
+}
+
+/* My Orders drawer */
+/* visibility:hidden (not only opacity) so the closed overlay does not
+   block clicks on the page. */
+.orders-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.4);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.35s ease, visibility 0.35s ease;
+	z-index: 1090;
+}
+
+.orders-overlay.open {
+	opacity: 1;
+	visibility: visible;
+}
+
+.orders-drawer {
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 100vh;
+	width: 400px;
+	max-width: 90vw;
+	background: var(--bg);
+	border-left: 1px solid var(--border);
+	box-shadow: -12px 0 30px rgba(0, 0, 0, 0.12);
+	transform: translateX(100%);
+	transition: transform 0.35s ease;
+	z-index: 1100;
+	display: flex;
+	flex-direction: column;
+	padding: 30px 25px;
+	overflow-y: auto;
+}
+
+.orders-drawer.open {
+	transform: translateX(0);
+}
+
+.orders-drawer-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid var(--text);
+	padding-bottom: 15px;
+	margin-bottom: 10px;
+}
+
+.orders-drawer-header h2 {
+	font-size: 1.1rem;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.btn-close-drawer {
+	background: transparent;
+	color: var(--text);
+	border: 1px solid var(--border);
+	width: auto;
+	padding: 6px 10px;
+	font-size: 0.85rem;
+}
+
+.btn-close-drawer:hover {
+	border-color: var(--text);
+	background: var(--text);
+	color: var(--bg);
+}
+
+.orders-drawer-subtitle {
+	font-size: 0.8rem;
+	color: var(--text-muted);
+	margin-bottom: 20px;
+	font-style: italic;
+}
+
+.orders-empty {
+	color: var(--text-muted);
+	font-style: italic;
+}
+
+.order-history-card {
+	border: 1px solid var(--border);
+	padding: 16px;
+	margin-bottom: 15px;
+	animation: fadeUp 0.3s ease forwards;
+}
+
+.order-history-card:last-child {
+	margin-bottom: 0;
+}
+
+.order-history-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: 700;
+	margin-bottom: 6px;
+}
+
+.order-status {
+	font-size: 0.65rem;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	padding: 2px 8px;
+	border: 1px solid var(--text);
+}
+
+.order-status.completed {
+	background: var(--text);
+	color: var(--bg);
+}
+
+.order-time {
+	font-size: 0.75rem;
+	color: var(--text-muted);
+	margin-bottom: 12px;
+}
+
+.order-item-row {
+	display: flex;
+	justify-content: space-between;
+	font-size: 0.85rem;
+	color: var(--text-muted);
+	margin-bottom: 4px;
+}
+
+.order-history-total {
+	text-align: right;
+	font-weight: 700;
+	margin-top: 12px;
+	padding-top: 12px;
+	border-top: 1px dashed var(--border);
+}
+.order-confirmation {
+	margin-top: 10px;
+	font-size: 0.75rem;
+	color: var(--text-muted);
+}
+
+.order-confirmation.sent {
+	color: var(--text);
+}
+
+/* Catalog card details */
+.muted-text {
+	color: var(--text-muted);
+}
+
+.empty-text {
+	font-style: italic;
+}
+
+.price-input {
+	width: 90px;
+}
+
+.cake-card .cake-category {
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 700;
+}
+
+.cake-card-footer {
+	margin-top: 15px;
+}
+
+.cake-card.unavailable {
+	opacity: 0.6;
+}
+
+button:disabled,
+button:disabled:hover {
+	background: var(--text);
+	color: var(--bg);
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.basket-item-name {
+	line-height: 1.3;
+}
+
+.basket-item-total {
+	text-align: right;
+	min-width: 50px;
+}

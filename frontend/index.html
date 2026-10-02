@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Cake Delight - Minimal Bakery</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+	<header>
+		<h1>Cake Delight.</h1>
+	</header>
+
+	<div id="status-banner" class="alert" role="status" aria-live="polite"></div>
+
+	<div class="container">
+		<main>
+			<div class="filter-card">
+				<input type="text" id="filter-name" placeholder="Search by name..." aria-label="Search by name">
+				<select id="filter-category" aria-label="Filter by category">
+					<option value="">All categories</option>
+				</select>
+				<input type="number" id="filter-min-price" class="price-input" placeholder="Min $" min="0" aria-label="Minimum price">
+				<input type="number" id="filter-max-price" class="price-input" placeholder="Max $" min="0" aria-label="Maximum price">
+				<button type="button" id="reset-filters" class="btn-outline">Reset</button>
+			</div>
+
+			<div id="catalog-container" class="catalog-grid">
+				<p class="muted-text">Loading catalog...</p>
+			</div>
+		</main>
+
+		<aside>
+			<div class="panel rating-form">
+				<h2>Submit Rating</h2>
+				<select id="rate-cake" aria-label="Cake to rate">
+					<option value="">Choose a cake...</option>
+				</select>
+
+				<div class="star-rating" role="radiogroup" aria-label="Rating">
+					<svg class="star" data-value="1" viewBox="0 0 24 24" role="radio" tabindex="0" aria-label="1 star" aria-checked="false">
+						<polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+					</svg>
+					<svg class="star" data-value="2" viewBox="0 0 24 24" role="radio" tabindex="0" aria-label="2 stars" aria-checked="false">
+						<polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+					</svg>
+					<svg class="star" data-value="3" viewBox="0 0 24 24" role="radio" tabindex="0" aria-label="3 stars" aria-checked="false">
+						<polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+					</svg>
+					<svg class="star" data-value="4" viewBox="0 0 24 24" role="radio" tabindex="0" aria-label="4 stars" aria-checked="false">
+						<polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+					</svg>
+					<svg class="star" data-value="5" viewBox="0 0 24 24" role="radio" tabindex="0" aria-label="5 stars" aria-checked="false">
+						<polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+					</svg>
+				</div>
+
+				<input type="text" id="rate-review" maxlength="500" placeholder="Write a short review..." aria-label="Review">
+				<button type="button" id="submit-rating">Submit</button>
+			</div>
+
+			<div class="panel" id="basket-panel">
+				<div class="panel-header-row">
+					<h2>Shopping Basket</h2>
+					<button type="button" id="open-orders" class="btn-outline btn-orders-toggle">
+						My Orders <span id="orders-count-badge" class="badge">0</span>
+					</button>
+				</div>
+				<div id="basket-items">
+					<p class="muted-text empty-text">Your basket is empty.</p>
+				</div>
+				<div class="total">Total: $<span id="basket-total">0.00</span></div>
+
+				<div class="basket-actions">
+					<button type="button" id="checkout" class="checkout-btn">Checkout</button>
+					<button type="button" id="reset-basket" class="checkout-btn btn-outline">Reset</button>
+				</div>
+			</div>
+		</aside>
+	</div>
+
+	<!-- "My Orders" slide-out drawer -->
+	<div class="orders-overlay" id="orders-overlay"></div>
+	<div class="orders-drawer" id="orders-drawer" role="dialog" aria-modal="true" aria-labelledby="orders-drawer-title">
+		<div class="orders-drawer-header">
+			<h2 id="orders-drawer-title">My Orders <span id="orders-count-badge-drawer" class="badge">0</span></h2>
+			<button type="button" id="close-orders" class="btn-close-drawer" aria-label="Close My Orders">&times;</button>
+		</div>
+		<p class="orders-drawer-subtitle">Orders placed in this browser session. They are cleared when you close the browser.</p>
+		<div class="orders-drawer-body" id="orders-list">
+			<p class="orders-empty">No orders placed yet this session.</p>
+		</div>
+	</div>
+
+	<footer class="site-footer">
+		Designed &amp; Developed by Danish Husain
+	</footer>
+
+	<script src="script.js"></script>
+</body>
+</html>

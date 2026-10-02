@@ -1,0 +1,20 @@
+# Scales cake-catalog-service between 1 and 3 pods, aiming for 70% of the
+# requested CPU (150m). Requires the Kubernetes Metrics Server (see README).
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: cake-catalog-service-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: cake-catalog-service
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
